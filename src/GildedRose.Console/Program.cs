@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace GildedRose.Console
 {
@@ -6,9 +8,18 @@ namespace GildedRose.Console
     {
         private IList<Item> Items;
 
+        static Program()
+        {
+            In = new ConsoleReader();
+            Out = new ConsoleWriter();
+        }
+
+        internal static IConsoleReader In { get; set; }
+        internal static IConsoleWriter Out { get; set; }
+
         internal static void Main(string[] args)
         {
-            System.Console.WriteLine("OMGHAI!");
+            Out.WriteLine("OMGHAI!");
 
             var app = new Program
             {
@@ -30,7 +41,7 @@ namespace GildedRose.Console
 
             app.UpdateQuality();
 
-            System.Console.ReadKey();
+            In.ReadKey();
         }
 
         public void UpdateQuality()

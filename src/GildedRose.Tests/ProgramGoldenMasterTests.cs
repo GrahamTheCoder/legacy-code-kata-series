@@ -14,6 +14,12 @@ namespace GildedRose.Tests
         [Test]
         public void GoldenMaster()
         {
+            Program.Main(new string[0]);
+
+            string welcomeMessage = "OMGHAI!";
+
+            Assert.That(System.Console.Out.ToString(), Is.EqualTo(welcomeMessage));
+            
         }
     }
 }
