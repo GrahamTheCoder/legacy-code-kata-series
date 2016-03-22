@@ -13,22 +13,25 @@ namespace GildedRose.Console
         {
             In = new ConsoleReader();
             Out = new ConsoleWriter();
-        }
-
-        public Program()
-        {
             QualityAdjuster = new QualityAdjuster();
         }
 
+        public Program(QualityAdjuster qualityAdjuster)
+        {
+            m_QualityAdjuster = qualityAdjuster;
+        }
+
         internal static IConsoleReader In { get; set; }
+
         internal static IConsoleWriter Out { get; set; }
-        internal QualityAdjuster QualityAdjuster{ get; set; }
+
+        internal static QualityAdjuster QualityAdjuster { get; set; }
 
         internal static void Main(string[] args)
         {
             Out.WriteLine("OMGHAI!");
 
-            var app = new Program
+            var app = new Program(QualityAdjuster)
             {
                 Items = new List<Item>
                 {
@@ -46,7 +49,7 @@ namespace GildedRose.Console
                 }
             };
 
-            app.QualityAdjuster.UpdateQuality(app.Items);
+            app.m_QualityAdjuster.UpdateQuality(app.Items);
 
             In.ReadKey();
         }
