@@ -38,10 +38,10 @@ namespace GildedRose.Tests
                 },
                 new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
             };
-            
+
             RunProgramMain(qualityAdjuster: testQualityAdjuster);
 
-            Assert.That(testQualityAdjuster.Items, Is.EquivalentTo(items));
+            Assert.That(testQualityAdjuster.Items, Is.EqualTo(items));
         }
 
         [Test]
