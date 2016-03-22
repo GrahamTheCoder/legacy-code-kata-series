@@ -12,7 +12,7 @@ namespace GildedRose.Tests
     public class ProgramGoldenMasterTests
     {
         [Test]
-        public void GoldenMaster()
+        public void WelcomeMessageIsOmgHai()
         {
             var testConsoleWriter = new TestConsoleWriter();
             Program.In = new TestConsoleReader();
