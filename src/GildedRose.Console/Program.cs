@@ -7,6 +7,7 @@ namespace GildedRose.Console
     internal class Program
     {
         private IList<Item> Items;
+        private readonly QualityAdjuster m_QualityAdjuster;
 
         static Program()
         {
@@ -14,8 +15,14 @@ namespace GildedRose.Console
             Out = new ConsoleWriter();
         }
 
+        public Program()
+        {
+            QualityAdjuster = new QualityAdjuster();
+        }
+
         internal static IConsoleReader In { get; set; }
         internal static IConsoleWriter Out { get; set; }
+        internal QualityAdjuster QualityAdjuster{ get; set; }
 
         internal static void Main(string[] args)
         {
@@ -39,17 +46,9 @@ namespace GildedRose.Console
                 }
             };
 
-            app.UpdateQuality();
+            app.QualityAdjuster.UpdateQuality(app.Items);
 
             In.ReadKey();
-        }
-
-        public void UpdateQuality()
-        {
-            foreach (var item in Items)
-            {
-                QualityAdjuster.UpdateItemQuality(item);
-            }
         }
     }
 

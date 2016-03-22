@@ -1,9 +1,18 @@
-﻿using System.Runtime.Serialization.Formatters;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 
 namespace GildedRose.Console
 {
-    internal static class QualityAdjuster
+    internal class QualityAdjuster
     {
+        public void UpdateQuality(IList<Item> items)
+        {
+            foreach (var item in items)
+            {
+                QualityAdjuster.UpdateItemQuality(item);
+            }
+        }
+
         public static void UpdateItemQuality(Item item)
         {
             if (IsDegradeableItemType(item))
