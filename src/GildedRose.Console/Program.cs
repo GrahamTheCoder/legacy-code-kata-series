@@ -7,7 +7,7 @@ namespace GildedRose.Console
     internal class Program
     {
         private IList<Item> Items;
-        private readonly QualityAdjuster m_QualityAdjuster;
+        private readonly IQualityAdjuster m_QualityAdjuster;
 
         static Program()
         {
@@ -16,7 +16,7 @@ namespace GildedRose.Console
             QualityAdjuster = new QualityAdjuster();
         }
 
-        public Program(QualityAdjuster qualityAdjuster)
+        public Program(IQualityAdjuster qualityAdjuster)
         {
             m_QualityAdjuster = qualityAdjuster;
         }
@@ -25,7 +25,7 @@ namespace GildedRose.Console
 
         internal static IConsoleWriter Out { get; set; }
 
-        internal static QualityAdjuster QualityAdjuster { get; set; }
+        internal static IQualityAdjuster QualityAdjuster { get; set; }
 
         internal static void Main(string[] args)
         {

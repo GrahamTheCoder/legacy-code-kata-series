@@ -3,7 +3,12 @@ using System.Runtime.Serialization.Formatters;
 
 namespace GildedRose.Console
 {
-    internal class QualityAdjuster
+    internal interface IQualityAdjuster
+    {
+        void UpdateQuality(IList<Item> items);
+    }
+
+    internal class QualityAdjuster : IQualityAdjuster
     {
         public void UpdateQuality(IList<Item> items)
         {
