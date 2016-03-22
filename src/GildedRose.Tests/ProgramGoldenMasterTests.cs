@@ -1,41 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GildedRose.Console;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace GildedRose.Tests
 {
     [TestFixture]
     public class ProgramGoldenMasterTests
     {
-        [Test]
-        public void WelcomeMessageIsOmgHai()
+        private static void RunProgramMain(IConsoleReader consoleReader = null,
+            IConsoleWriter consoleWriter = null,
+            IQualityAdjuster qualityAdjuster = null)
         {
-            var testConsoleWriter = new TestConsoleWriter();
-            Program.In = new TestConsoleReader();
-            Program.Out = testConsoleWriter;
+            Program.In = consoleReader ?? new ConsoleReader();
+            Program.Out = consoleWriter ?? new ConsoleWriter();
+            Program.QualityAdjuster = qualityAdjuster ?? new QualityAdjuster();
             Program.Main(new string[0]);
-
-            string welcomeMessage = "OMGHAI!";
-
-            Assert.That(testConsoleWriter.Written.Last(), Is.EqualTo(welcomeMessage));
-        }
-
-        [Test]
-        public void ReadKeyOnce()
-        {
-            var testConsoleWriter = new TestConsoleWriter();
-            var testConsoleReader = new TestConsoleReader();
-
-            Program.In = testConsoleReader;
-            Program.Out = testConsoleWriter;
-            Program.Main(new string[0]);
-
-            Assert.That(testConsoleReader.Counter, Is.EqualTo(1));
         }
 
         [Test]
@@ -43,11 +24,30 @@ namespace GildedRose.Tests
         {
             var testQualityAdjuster = new TestQualityAdjuster();
 
-            Program.In = new TestConsoleReader();
-            Program.QualityAdjuster = testQualityAdjuster;
-            Program.Main(new string[0]);
+            RunProgramMain(qualityAdjuster: testQualityAdjuster);
 
             Assert.That(testQualityAdjuster.Items.Count, Is.EqualTo(6));
+        }
+
+        [Test]
+        public void ReadKeyOnce()
+        {
+            var testConsoleReader = new TestConsoleReader();
+
+            RunProgramMain(testConsoleReader);
+
+            Assert.That(testConsoleReader.Counter, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void WelcomeMessageIsOmgHai()
+        {
+            var testConsoleWriter = new TestConsoleWriter();
+
+            RunProgramMain(consoleWriter: testConsoleWriter);
+
+            var welcomeMessage = "OMGHAI!";
+            Assert.That(testConsoleWriter.Written.Last(), Is.EqualTo(welcomeMessage));
         }
     }
 
@@ -57,7 +57,7 @@ namespace GildedRose.Tests
 
         public void UpdateQuality(IList<Item> items)
         {
-           Items.AddRange(items);
+            Items.AddRange(items);
         }
     }
 
@@ -73,12 +73,10 @@ namespace GildedRose.Tests
 
     public class TestConsoleReader : IConsoleReader
     {
-
         public int Counter { get; private set; }
 
         public ConsoleKeyInfo ReadKey()
         {
-
             Counter++;
             return new ConsoleKeyInfo();
         }
