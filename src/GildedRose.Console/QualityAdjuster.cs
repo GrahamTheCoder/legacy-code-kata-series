@@ -77,9 +77,12 @@ namespace GildedRose.Console
         private static void DegradeItem(Item item)
         {
             item.Quality = item.Quality - 1;
-            if (item.Name.Contains("Conjured"))
+            if (CanBeDegradable(item))
             {
-                item.Quality = item.Quality - 1;
+                if (item.Name.Contains("Conjured"))
+                {
+                    item.Quality = item.Quality - 1;
+                }
             }
 
         }
