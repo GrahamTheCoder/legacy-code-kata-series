@@ -55,12 +55,38 @@ namespace GildedRose.Console
         }
     }
 
-    public class Item
+    public class Item : IEquatable<Item>
     {
         public string Name { get; set; }
 
         public int SellIn { get; set; }
 
         public int Quality { get; set; }
+
+        public bool Equals(Item other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return string.Equals(Name, other.Name) && Quality == other.Quality && SellIn == other.SellIn;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Item) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = (Name != null ? Name.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ Quality;
+                hashCode = (hashCode*397) ^ SellIn;
+                return hashCode;
+            }
+        }
     }
 }
