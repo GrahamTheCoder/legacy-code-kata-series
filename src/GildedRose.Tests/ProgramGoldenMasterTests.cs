@@ -23,6 +23,19 @@ namespace GildedRose.Tests
 
             Assert.That(testConsoleWriter.Written.Last(), Is.EqualTo(welcomeMessage));
         }
+
+        [Test]
+        public void ReadKeyOnce()
+        {
+            var testConsoleWriter = new TestConsoleWriter();
+            var testConsoleReader = new TestConsoleReader();
+
+            Program.In = testConsoleReader;
+            Program.Out = testConsoleWriter;
+            Program.Main(new string[0]);
+
+            Assert.That(testConsoleReader.Counter, Is.EqualTo(1));
+        }
     }
 
     public class TestConsoleWriter : IConsoleWriter
@@ -37,8 +50,13 @@ namespace GildedRose.Tests
 
     public class TestConsoleReader : IConsoleReader
     {
+
+        public int Counter { get; private set; }
+
         public ConsoleKeyInfo ReadKey()
         {
+
+            Counter++;
             return new ConsoleKeyInfo();
         }
     }
